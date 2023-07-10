@@ -8,17 +8,6 @@ import java.util.Scanner;
 
 public class Runner {
     public static void main(String[] args) throws IOException{
-//        Tuple a = coordsToPixels(-0.3, -0.5, 1000);
-//        System.out.println(a);
-//        ArrayList<Tuple<Double>> list = new ArrayList<>();
-//        list.add(new Tuple<Double>(0.0, 0.0));
-//        for (int i = 0; i < 100; i++) {
-//            double x = Math.random() * 2 - 1;
-//            double y = Math.random() * 2 - 1;
-//            //System.out.println(x + ", " + y);
-//            list.add(coordsToPixels(x, y, 1));
-//        }
-//        plotSquares(list);
 
         HashTable[] tables = readCoords(new File("stars.txt"));
         LinkedList<Integer> keys = new LinkedList<>();
@@ -37,7 +26,6 @@ public class Runner {
 
         plotSquares(tables, keys);
 
-
         File[] files = {new File("BigDipper_lines.txt"),
                 new File("Bootes_lines.txt"),
                 new File("Cas_lines.txt"),
@@ -47,47 +35,26 @@ public class Runner {
                 new File("UrsaMajor_lines.txt"),
                 new File("UrsaMinor_lines.txt")};
         drawLines(files, tables);
-
-        //System.out.println(tables[2]);
-
-
-
-
-        //System.out.println("0" + tables[0].toString());
-
-
-
     }
 
     public static void drawLines(File[] files, HashTable[] tables)throws IOException{
         StdDraw.setPenColor(StdDraw.YELLOW);
         for (int i = 0; i < files.length; i++) {
             Scanner scanner = new Scanner(files[i]);
-            //System.out.println(tables[2]);
-            while(scanner.hasNext()){
 
+            while(scanner.hasNext()){
                 String line = scanner.nextLine();
-                //System.out.println(line);
                 Scanner lineReader = new Scanner(line);
                 lineReader.useDelimiter(",");
-                //System.out.println(lineReader.next());
-                //System.out.println(tables[2].get((String)lineReader.next()));
                 String starNameOne = lineReader.next();
                 Tuple<Double> one = (Tuple) tables[0].get((Integer)tables[2].get(starNameOne));
 
                 String starNameTwo = lineReader.next();
-                //System.out.println(starNameTwo);
-
 
                 Tuple<Double> two = (Tuple) tables[0].get((Integer)tables[2].get(starNameTwo));
                 StdDraw.line(one.x, one.y, two.x, two.y);
-
             }
         }
-
-
-
-
     }
 
     public static HashTable[] readCoords(File file) throws IOException {
@@ -96,13 +63,12 @@ public class Runner {
         tables[1] = new HashTable(10007);
         tables[2] = new HashTable(10007);
         Scanner fileReader = new Scanner(file);
+
         while (fileReader.hasNextLine()){
             String line = fileReader.nextLine();
             Scanner lineReader = new Scanner(line);
             Tuple<Double> coords = coordsToPixels(lineReader.nextDouble(), lineReader.nextDouble(), 1);
-            //System.out.println(lineReader.next());
             lineReader.nextDouble();
-            //System.out.println(lineReader.next());
             int id = lineReader.nextInt();
             double magnitude = lineReader.nextDouble();
             int harvardID = lineReader.nextInt();
@@ -113,13 +79,12 @@ public class Runner {
                 lineReader.useDelimiter("");
                 lineReader.next();
             }
+
             lineReader.useDelimiter("; ");
             while(lineReader.hasNext()){
                 String name = lineReader.next();
-                //System.out.println(name);
                 tables[2].put(name, id);
             }
-
         }
 
         return tables;
@@ -153,7 +118,5 @@ public class Runner {
                 }
                 StdDraw.filledCircle(((Tuple<Double>)pairs.get(i)).getX(), ((Tuple<Double>)pairs.get(i)).getY(), magnitude);
             }
-
-
     }
 }
